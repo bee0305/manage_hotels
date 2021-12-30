@@ -58,7 +58,7 @@ def get_city_hotels(request,city_name):
         return JsonResponse(data)    
     
 
-def get_city_hotels2(request): 
+def get_city_hotels_search(request): 
     """
     func for ajax request from city list: via a search form with dj-ajax-select module;
     return a list of filtered hotels for a chosen city to render on the same page    
