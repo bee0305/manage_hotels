@@ -1,0 +1,7 @@
+.env
+media
+venv
+conf.py
+db.sqlite3
+*__pychache__
+*.pyc
