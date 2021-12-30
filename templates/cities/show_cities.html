@@ -1,7 +1,7 @@
 {% extends '../base.html' %}
 {% load static %}
 {% block content %}
-    <h1 class="red">Display cities</h1>  
+    <h1 id="foo">Display cities</h1>  
     <div class="row">
         <div class="col-md-6">
             <h5>Search for hotels in a city</h5>            
@@ -10,7 +10,7 @@
                     {{search_city_form.media}}
                     {{search_city_form}}
                 </div>                
-                <button type="submit" class="btn-success">Find city</button>
+                <button type="submit" class="submit-btn rounded">Find city</button>
             </form>
         </div>
         <div class="col-md-6">
@@ -19,11 +19,11 @@
                     {% for city in cities %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">                                    
                     <strong>
-                        <span class='show'>                        
+                        <span class='black-link'>                        
                             <a class ='get-hotels' href="{% url 'city:city-hotels' city %}">{{city}}</a>                   
                         </span>
                     </strong>                    
-                    <span class="badge badge-primary badge-pill">{{city.hotels.count}}</span>
+                    <span class="badge badge-primary badge-pill pill-bg">{{city.hotels.count}}</span>
                     </li>
                     {% endfor %}
                 {% else %}
@@ -33,7 +33,8 @@
             </ul>
         </div>              
     </div>     
-    <div>
+    <div>        
+       <div id="results"></div>        
         <div id="hotel-list" >            
         </div>
     </div>     
@@ -41,48 +42,69 @@
 
 {% block js %}
 <script type="text/javascript">
+    
     $(".get-hotels").on('click',function(e){
-        let hotelList = $("#hotel-list");
-        hotelList.text("");
         e.preventDefault();
-        let url = $(this).attr("href")
-        $.get(url,(response)=>{
-            let rawResp = response.hotels;
-            let hotels = JSON.parse(rawResp)
+        let hotelList = $("#hotel-list");   
+        hotelList.text("");
+        let results = $("#results");       
+        results.text("");
+
+        let url = $(this).attr("href");
+        let cityDiv= document.createElement("div")
+        $.get(url,(response)=>{          
+            let cityData = JSON.parse(response.city);            
+            cityDiv.textContent = `Search results for: ${cityData.city}` ;   
+            cityDiv.className = "result-bg"; 
+            results.append(cityDiv)   
+            let hotels = JSON.parse(response.hotels);            
+                      
             hotels.forEach((item)=>{
                 let wrapDiv = document.createElement('div');
                 let hotelLink = document.createElement('a');                
                 // from api point: name,id = item.id (can be used to create hotel detail url)
                 hotelLink.setAttribute("href", "#");
+                hotelLink.className='black'
                 wrapDiv.className = 'hotel-content';
                 hotelLink.textContent = item['name'];
                 wrapDiv.append(hotelLink);
                 hotelList.append(wrapDiv);
+                
+                
             })
+            
+            // searchResult.text = city
         })
+        
     })  
     // submit search form with auto-complete
     $('#search-form').on('submit',function(e){
+        e.preventDefault();
+
         let hotelList = $("#hotel-list");
         hotelList.text("");
-        e.preventDefault();
+        let results = $("#results");       
+        results.text("");
+
         let url = $(this).attr('action');
-        console.log('urrrl',url)
-        let data = {"city":"Amsterdam"}
+        let cityDiv= document.createElement("div")
         $.ajax({
             url:url,
             type:'GET',
             data:$(this).serialize(),
             success:function(resp){
-                //console.log(resp)
-                let rawResp = resp.hotels;
-                let hotels = JSON.parse(rawResp)
-
+                console.log(resp.city)
+                let cityData = JSON.parse(resp.city);                          
+                cityDiv.textContent = `Search results for: ${cityData.city}` ;   
+                cityDiv.className = "result-bg"; 
+                results.append(cityDiv);                
+                let hotels = resp.hotels;                
                 hotels.forEach((item)=>{
                 let wrapDiv = document.createElement('div');
                 let hotelLink = document.createElement('a');                
                 // from api point: name,id = item.id (can be used to create hotel detail url)
                 hotelLink.setAttribute("href", "#");
+                hotelLink.className='black'
                 wrapDiv.className = 'hotel-content';
                 hotelLink.textContent = item['name'];
                 wrapDiv.append(hotelLink);

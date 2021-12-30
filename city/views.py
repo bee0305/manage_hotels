@@ -51,9 +51,11 @@ def get_city_hotels(request,city_name):
         city = get_object_or_404(City,name=city_name)
         hotels = Hotel.objects.select_related('city').filter(city=city)
         data = [{'name': hotel.name, 'id': hotel.id} for
-                        hotel in hotels]                       
-        json_data = json.dumps(data)
-        return JsonResponse({"hotels":json_data})    
+                        hotel in hotels] 
+        json_city_name = json.dumps({"city":city_name})                                  
+        json_hotel_data = json.dumps(data)     
+        data={"hotels":json_hotel_data,"city":json_city_name}         
+        return JsonResponse(data)    
     
 
 def get_city_hotels2(request): 
@@ -65,14 +67,19 @@ def get_city_hotels2(request):
     if request.method == 'GET':        
         form = SearchForm(request.GET)        
         if form.is_valid():            
-            city_name = form.cleaned_data['city']  
-            print('city name',city_name)
-            city = get_object_or_404(City,name=city_name)
+            city = form.cleaned_data['city'] 
+            city = get_object_or_404(City,name=city.name)
             hotels = Hotel.objects.select_related('city').filter(city=city)
-            data = [{'name': hotel.name, 'id': hotel.id} for
-                            hotel in hotels]                       
-            json_data = json.dumps(data)
-            return JsonResponse({"hotels":json_data})         
+            print("line 73 city name",city.name)
+            print("line 74 type",type(city.name))
+            json_city_name = json.dumps({"city":city.name})  
+            print("line 75",json_city_name)
+            print("#############")
+            json_hotel_data = [{'name': hotel.name, 'id': hotel.id} for
+                            hotel in hotels] 
+            data={"hotels":json_hotel_data,"city":json_city_name} 
+            print("data",data)
+            return JsonResponse(data)         
 
         else:
             return JsonResponse({"data":"invalid"})     

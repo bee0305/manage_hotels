@@ -1,9 +1,28 @@
 body {
     background-color: bisque;
 }
+/* show-cities.html */
 .hotel-content{
     background-color: rgb(229, 227, 221);
     padding: 1rem;
     margin-top: 1rem;
     cursor: pointer;
+}
+.black-link a{
+    color:black;
+    cursor: pointer;
+}
+.black{
+    color: #000;
+}
+.submit-btn, .pill-bg{
+    background-color: brown;
+    color:white;
+}
+
+.result-bg{
+    margin-top:2rem;
+    padding:1rem;
+    background-color: rgb(243, 207, 177);
+    
 }
