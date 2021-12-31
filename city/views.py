@@ -46,9 +46,9 @@ def get_city_hotels(request,city_name):
     """
     func for ajax request from city list: via a tag with city name;
     return a list of filtered hotels for a chosen city to render on the same page    
-    """   
-    if city_name:
-        city = get_object_or_404(City,name=city_name)
+    """
+    if city_name:        
+        city = get_object_or_404(City,name=city_name)        
         hotels = Hotel.objects.select_related('city').filter(city=city)
         data = [{'name': hotel.name, 'id': hotel.id} for
                         hotel in hotels] 
@@ -56,6 +56,8 @@ def get_city_hotels(request,city_name):
         json_hotel_data = json.dumps(data)     
         data={"hotels":json_hotel_data,"city":json_city_name}         
         return JsonResponse(data)    
+    else:
+        print('no city name found')    
     
 
 def get_city_hotels_search(request): 
@@ -64,23 +66,21 @@ def get_city_hotels_search(request):
     return a list of filtered hotels for a chosen city to render on the same page    
     """   
          
-    if request.method == 'GET':        
-        form = SearchForm(request.GET)        
+    if request.method == 'GET':
+        form = SearchForm(request.GET)
         if form.is_valid():            
             city = form.cleaned_data['city'] 
             city = get_object_or_404(City,name=city.name)
-            hotels = Hotel.objects.select_related('city').filter(city=city)
-            print("line 73 city name",city.name)
-            print("line 74 type",type(city.name))
-            json_city_name = json.dumps({"city":city.name})  
-            print("line 75",json_city_name)
-            print("#############")
+            hotels = Hotel.objects.select_related('city').filter(city=city)            
+            json_city_name = json.dumps({"city":city.name})              
             json_hotel_data = [{'name': hotel.name, 'id': hotel.id} for
                             hotel in hotels] 
-            data={"hotels":json_hotel_data,"city":json_city_name} 
-            print("data",data)
-            return JsonResponse(data)         
-
+            data={"hotels":json_hotel_data,"city":json_city_name}         
+            return JsonResponse(data)        
         else:
+            print('form is invalid')
             return JsonResponse({"data":"invalid"})     
+            
+               
+            
     

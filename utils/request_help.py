@@ -15,7 +15,6 @@ def make_request_cities(url):
     for row in reader:
         #  row == list[one_string] ==['AMS;"Amsterdam"']
         collection = row[0].split(';')
-        print('collection is',collection)
         if collection:
             # "BER";"Berlijn"
             # print(collection[0],type(collection[0]))
