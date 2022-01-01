@@ -1,3 +1,4 @@
+from django.core.exceptions import RequestAborted
 import requests
 from requests.auth import HTTPBasicAuth
 import csv
@@ -7,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.conf import settings
 
 from city.models import Hotel,City
+from .utils import ApiCustomException
 #from .utils import file_generator_csv    # local csv file see below (option N2)
 
 
@@ -22,24 +24,32 @@ def run():
     # splitting on \n chars; returns iterable for csv.reader method
     lines = resp.text.splitlines()
     reader = csv.reader(lines)
-    temp = []       
-    for row in reader:        
-        collection = row[0].split(';')
-        if collection:    
-            short_cut  = str(collection[0].strip('"'))
-            unid  = str(collection[1].strip('"'))
-            name = collection[2].strip('"')
-            city = get_object_or_404(City,short_cut=short_cut)
-            hotel = Hotel(unid=unid,short_cut = short_cut,name=name,city=city)  
-            temp.append(hotel)
-            # TODO: add logger here    
-            
-        else:
-            continue 
-    Hotel.objects.bulk_create(temp,batch_size=200)     
-    finish = timeit.default_timer()            
-    print('Total time for this code is',finish - start)
-    # via api point =  0.4508142999984557 sec 
+    temp = [] 
+    try:      
+        for row in reader:        
+            collection = row[0].split(';')
+            if collection:    
+                short_cut  = str(collection[0].strip('"'))
+                unid  = str(collection[1].strip('"'))
+                name = collection[2].strip('"')
+                city = get_object_or_404(City,short_cut=short_cut)
+                hotel = Hotel(unid=unid,short_cut = short_cut,name=name,city=city)  
+                temp.append(hotel)
+                # TODO: add logger here    
+                
+            else:
+                continue 
+        Hotel.objects.bulk_create(temp,batch_size=200)     
+        finish = timeit.default_timer()            
+        print('Total time for this code is',finish - start)
+        # via api point =  0.4508142999984557 sec 
+    except RequestAborted:
+        print('request not success') 
+        # TODO: add logger here   
+    except ApiCustomException:
+        print('smth went wrong with api call') 
+        # TODO: add logger here
+
 
 
 # Option N2 (work with downloaded csv files )    

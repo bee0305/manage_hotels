@@ -6,3 +6,6 @@ def file_generator_csv(filename):
         for row in read_data:
             yield(row)
     
+class ApiCustomException(Exception):
+    # custom  'smth went wrong with api call'
+    pass     

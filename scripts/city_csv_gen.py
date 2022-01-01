@@ -3,10 +3,14 @@ from requests.auth import HTTPBasicAuth
 import csv
 import timeit
 
+from django.core.exceptions import RequestAborted
 from django.conf import settings
 
 from city.models import City
+from .utils import ApiCustomException
 # from .utils import file_generator_csv #local csv files; see Option N2 below
+
+
 
 # Option N1
 # delete existing data
@@ -20,20 +24,28 @@ def run():
     # splitting on \n chars; returns iterable for csv.reader method
     lines = resp.text.splitlines()
     reader = csv.reader(lines)
-    temp = []       
-    for row in reader:
-        collection = row[0].split(';')
-        if collection:
-            short_cut  = str(collection[0])
-            name = collection[1].strip('"')            
-            city = City(name=name,short_cut=short_cut)
-            temp.append(city)
-            # TODO: add logger here         
-        else:
-            continue 
-    City.objects.bulk_create(temp)    
-    finish = timeit.default_timer()            
-    print('Total time for this code is',finish - start)
+    temp = [] 
+    try:      
+        for row in reader:
+            collection = row[0].split(';')
+            if collection:
+                short_cut  = str(collection[0])
+                name = collection[1].strip('"')            
+                city = City(name=name,short_cut=short_cut)
+                temp.append(city)
+                      
+            else:
+                continue
+        City.objects.bulk_create(temp)    
+        finish = timeit.default_timer()            
+        print('Total time for this code is',finish - start)    
+    except RequestAborted:
+        print('request not success') 
+        # TODO: add logger here   
+    except ApiCustomException:
+        print('smth went wrong with api call') 
+        # TODO: add logger here           
+    
 
 
 # Option N2: 
