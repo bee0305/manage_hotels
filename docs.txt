@@ -1,0 +1,16 @@
+# git branch main
+1.core func in utils/request_help.py
+2.api calls via UI menu buttons (available only for is_staff)
+3.db data gets created only once and later only updated (get_or_create)
+4. after db update => dj template
+
+
+
+# git branch dj-extention
+# depends on third partie module == django-extensions
+1. existing db data gets deleted
+2. csv data gets fetched from api point via command line commands:
+            $ python manage.py runscript city_csv_gen
+            $ python manage.py runscript hotel_csv_gen
+
+3. new city,hotels objects created in db via .bulk_create(objects_list) 
