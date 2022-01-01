@@ -22,6 +22,8 @@ DEBUG = env('DEBUG')
 
 CSV_HOST = env('CSV_HOST')
 CSV_PSW = env('CSV_PSW')
+CITY_URL= env('CITY_URL')
+HOTEL_URL= env('HOTEL_URL')
 
 
 ALLOWED_HOSTS = ['*']

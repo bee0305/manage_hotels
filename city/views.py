@@ -1,7 +1,7 @@
 import json
-from django.http.response import JsonResponse
+from django.conf import settings
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView
 from django.http import JsonResponse
 
 from city.forms import SearchForm
@@ -10,11 +10,10 @@ from .forms import SearchForm
 from utils.request_help import make_request_cities, make_request_hotels_slow
 
 
-CITY_URL = 'http://rachel.maykinmedia.nl/djangocase/city.csv'
-HOTEL_URL ='http://rachel.maykinmedia.nl/djangocase/hotel.csv'
 
 
-def load_cities(request,url=CITY_URL):  
+
+def load_cities(request,url=settings.CITY_URL):  
     """ 
     make a get request via simple auth to fetch a list of cities and create db records
     of City objects
@@ -22,7 +21,7 @@ def load_cities(request,url=CITY_URL):
     make_request_cities(url)
     return render(request,'cities/show_cities.html')
 
-def load_hotels(request,url=HOTEL_URL): 
+def load_hotels(request,url=settings.HOTEL_URL): 
     """ 
     make a get request via simple auth to fetch a list of hotels  and create db records
     of Hotel objects
