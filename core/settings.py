@@ -22,6 +22,8 @@ DEBUG = env('DEBUG')
 
 CSV_HOST = env('CSV_HOST')
 CSV_PSW = env('CSV_PSW')
+CITY_URL = env('CITY_URL')
+HOTEL_URL =env('HOTEL_URL')
 
 
 ALLOWED_HOSTS = ['*']
@@ -39,6 +41,8 @@ INSTALLED_APPS = [
     # third parties
     'rest_framework',
     'ajax_select',
+    'django_extensions',
+    
     # custom    
     'users',
     'city',
@@ -81,6 +85,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 
 

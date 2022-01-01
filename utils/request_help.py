@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.conf import settings
 from city.models import City,Hotel
 
-      
+     
     
 def make_request_cities(url):
     resp = requests.get(url=url,auth=HTTPBasicAuth(settings.CSV_HOST,settings.CSV_PSW))    
