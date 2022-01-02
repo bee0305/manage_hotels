@@ -1,18 +1,26 @@
-# git branch main
+A. git branch main
 1.core func in utils/request_help.py
 2.api calls via UI menu buttons (available only for is_staff)
 3.db data gets created only once and later only updated (get_or_create)
 4. after db update => dj template
 
+5.custom management command get_api  
+two blocks: to fetch data from city api and hotel api with command:
+First request.head if resp OK => request.get
+########################################################################################         
+for cities:  $python manage.py  get_api (or python manage.py  get_cities --fetch city)
+for hotels:  $python manage.py  get_api --fetch hotel
+########################################################################################    
 
+B. git branch dj-extention
 
-# git branch dj-extention
 # depends on third partie module == django-extensions
 1. existing db data gets deleted
 2. csv data gets fetched from api point via command line commands:
-#################################################################
-            $ python manage.py runscript city_csv_gen
-            $ python manage.py runscript hotel_csv_gen
-#################################################################            
-
 3. new city,hotels objects created in db via .bulk_create(objects_list) 
+
+module management command runscript
+#########################################################################################
+for cities  $ python manage.py runscript city_csv_gen
+for hotels  $ python manage.py runscript hotel_csv_gen
+#########################################################################################            
