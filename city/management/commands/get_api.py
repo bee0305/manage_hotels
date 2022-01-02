@@ -25,8 +25,10 @@ class Command(BaseCommand):
             url = settings.CITY_URL
             try:
                 resp = requests.head(url=url,auth=HTTPBasicAuth(settings.CSV_HOST,settings.CSV_PSW))
-                if resp.status_code == 200:                    
+                if resp.status_code == 200:
+                    print('url',url)                    
                     make_request_cities(url)  
+                    print('before stdout, req OK')
                     self.stdout.write(self.style.SUCCESS(f"Last request at:{time} city api; code {resp.status_code}"))
                     print('end request cities')
                     # TODO: logging
