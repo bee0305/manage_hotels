@@ -10,7 +10,9 @@
 # depends on third partie module == django-extensions
 1. existing db data gets deleted
 2. csv data gets fetched from api point via command line commands:
+#################################################################
             $ python manage.py runscript city_csv_gen
             $ python manage.py runscript hotel_csv_gen
+#################################################################            
 
 3. new city,hotels objects created in db via .bulk_create(objects_list) 
