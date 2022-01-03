@@ -1,0 +1,35 @@
+https://github.com/bee0305/manage_hotels
+
+=============
+1. Required ||
+=============
+[X] import data via (basic) auth HTTP request
+    * via menu in templates ( UI buttons)
+    * via custom management command
+    * via django_extentions management command
+    (see docs.txt for more info)            
+[X] models City, Hotel (FK(City))
+[X] template with cities and hotels data: on the same page
+    Menu: Cities list
+    * ajaxed based search form: autocomplete search city (3 chars)(dango-ajax-selects)|=> hotels
+    * <a> tag click  ajax based request to view to fetch and render list of hotels
+
+[X] views for requests (func based)
+
+[X] views CiltyList (incl search form autocomplete)
+[X] views for JSON hotel data
+[X] unit tests (url,views,requests to api): app city/tests
+[X] docs.txt and docstrings
+=============
+2.Optional  ||
+============
+[X] venv
+[X] env vars (django-environ)
+[X] github 2 branches ( main,dj-extensions) see docs.txt
+[X] admin for city,hotels
+[X] User (attr= is_hotel_manager)
+[X] admin create new hotel: corresp city via search form (no dropdown) 3 chars
+
+[?] cron for custom management command ( failed on wsl2)
+    
+
