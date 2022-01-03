@@ -2,7 +2,9 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractUser
 
+
 from .managers import CustomUserManager
+from city.models import City
 
 
 class User(AbstractUser):
@@ -22,3 +24,21 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+
+
+class HotelManager(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE,related_name='hotel_manager')
+    city = models.ForeignKey(City,related_name='managers',
+                            on_delete=models.SET_NULL,null=True)
+
+
+    def __str__(self) -> str:
+        return f'{self.user.username} can manage {self.city}'
+
+ 
+
+
+# @receiver(post_save, sender=HotelManager)
+# def update_stock(sender, instance, **kwargs):
+#     instance.user.is_hotel_manager = True
+#     instance.user.is_hotel_manager.save()

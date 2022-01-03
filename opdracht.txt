@@ -27,9 +27,18 @@ https://github.com/bee0305/manage_hotels
 [X] env vars (django-environ)
 [X] github 2 branches ( main,dj-extensions) see docs.txt
 [X] admin for city,hotels
-[X] User (attr= is_hotel_manager)
+[X] User (attr = is_hotel_manager)
+[?] HotelManager model vs User group with crud perms hotels 
+[-] hotel manager for a given city can CRUD hotels
 [X] admin create new hotel: corresp city via search form (no dropdown) 3 chars
-
+[-] each day data via crontab
 [?] cron for custom management command ( failed on wsl2)
+[-] fixtures
+
+3. Extra
+[-] htmx for city/hotels cruds
+[-] logs
+
+
     
 
