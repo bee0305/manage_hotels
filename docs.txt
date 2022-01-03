@@ -16,7 +16,7 @@ B. git branch dj-extention
 
 # depends on third partie module == django-extensions
 1. existing db data gets deleted
-2. csv data gets fetched from api point via command line commands:
+2. csv data gets fetched from api point through the built-in command (runscript):
 3. new city,hotels objects created in db via .bulk_create(objects_list) 
 
 module management command runscript

@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser
 
 from .managers import CustomUserManager
 
+
 class User(AbstractUser):
     """ 
     username + email for signup; email for login;
