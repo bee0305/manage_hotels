@@ -6,6 +6,12 @@ from .forms import CityForm
 @admin.register(Hotel)
 class HotelAdmin(admin.ModelAdmin):
     form = CityForm
+    list_display = ('id','name','unid','short_cut')
+    list_filter = ( 'city',)
 
 
-admin.site.register(City)
+@admin.register(City)
+class CityAdmin(admin.ModelAdmin):
+    list_display = ('id','name')
+
+
