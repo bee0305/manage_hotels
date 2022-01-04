@@ -1,0 +1,14 @@
+<div>
+    {% for hotel in hotels%}
+    <div class="d-flex justify-content-between">
+        <p>{{hotel}} {{hotel.unid}}</p>
+        <span class="badge badge-primary badge-pill pill-bg"
+        style="cursor: pointer;"
+        hx-delete="{% url 'city:delete-hotel' hotel.id%}"
+        hx-target="#hotel-list"
+        hx-confirm="Are you sure you wish to delete?">X</span>
+             
+
+    </div>
+    {% endfor %}
+</div>

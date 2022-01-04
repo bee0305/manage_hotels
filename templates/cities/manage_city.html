@@ -1,6 +1,49 @@
 {% extends '../base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block content %}
-    <h1>Manage your cities </h1> 
+<div class="container-fluid mt-5">
+    <h5 class="text-center">Manage your hotels in {{city}} </h5> 
+    
+    <hr>
+    <div class="row">
+        <div class="col-md-6 d-flex justify-content-start">
+            <div class="hotel-menu">Sort hotels</div>
+        </div>
+        <!-- <div class="col-md-6 d-flex justify-content-center">
+            <div class="hotel-menu">Add hotels</div>
+        </div>         -->
+    </div>
+    <hr>
+    <div class="row">
+        {% if hotels%}
+            <div class="col-md-7" id="hotel-list">
+                {% include "_partials/list_hotels.html" with hotels=hotels%}
+            </div>     
+        {% else%}
+            <div class="col-md-5" id="hotel-list">
+                No hotels yet
+            </div>     
+        {% endif%}    
+        <div class="col-md-5 d-flex justify-content-center">
+            <div class="form-hotel-wrap">
+                <p class="lead ml-0">My Films</p>
+                <form class="d-flex flex-column">         
+                    {% csrf_token %}
+                    <label for="hotelname">Enter a new hotel name: </label>
+                    <input type="text" name="hotelname" id="hotelname" class="mr-2 rounded " placeholder="Hotel name">
+                    </input>   
+                    <button class="add-hotel-btn mt-3 rounded" 
+                        hx-post="{% url 'city:add-new-hotel' %}"
+                        hx-target="#hotel-list"
+                        type="submit">
+                        Add new hotel
+                    </button>            
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
 {% endblock %}    

@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'bootstrap4',    
+    'bootstrap4', 
+    'widget_tweaks',   
     # 'rest_framework',
     # custom  
     'users.apps.UsersConfig',  

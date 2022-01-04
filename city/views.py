@@ -1,10 +1,13 @@
 import json
 from django.conf import settings
+from django.db.models import manager
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import ListView
+from django.views.generic import ListView,View
+from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.http import JsonResponse
 
 from city.forms import SearchForm
+from users.models import HotelManager
 from .models import City, Hotel
 from .forms import SearchForm
 from utils.request_help import make_request_cities, make_request_hotels_slow
@@ -81,5 +84,36 @@ def get_city_hotels_search(request):
             print('form is invalid')
             return JsonResponse({"data": "invalid"})
 
-def manage_city(request):
-    return render(request,'cities/manage_city.html')
+
+class ManageCity(LoginRequiredMixin,UserPassesTestMixin, View):
+
+    def test_func(self):
+        # print(self.request.user.is_hotel_manager)
+        return self.request.user.is_hotel_manager
+
+    def get(self,request,*args,**kwargs):             
+        manager = HotelManager.objects.filter(user=request.user).last()
+        city = manager.city
+        hotels = city.hotels.all().order_by('name')          
+        return render(request,'cities/manage_city.html',{'city':city.name,'hotels':hotels})
+
+    def post(self,request,*args,**kwargs):  
+        #  "ANT";"ANT11";"Agora"  short_cut;unid;name     
+        print('kwargs',kwargs)
+        print('args',args)
+        hotel_name = request.POST.get('hotelname')
+        manager =  HotelManager.objects.filter(user=request.user).last()    
+        city = manager.city
+        new_hotel = Hotel.objects.get_or_create(city=city,name=hotel_name,)[0]
+        hotels = city.hotels.all().order_by('name')
+        return render(request, '_partials/list_hotels.html', {'hotels':hotels})
+
+    
+    
+    def delete(self,request,*args,**kwargs):
+        id = kwargs.get('pk')
+        print('id is:',id)
+        manager =  HotelManager.objects.filter(user=request.user).last()    
+        city = manager.city
+        hotels = city.hotels.all().order_by('name')
+        return render(request, '_partials/list_hotels.html', {'hotels':hotels})

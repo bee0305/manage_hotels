@@ -26,3 +26,15 @@ body {
     background-color: rgb(243, 207, 177);
     
 }
+
+/* Hotel Manager Page */
+.hotel-menu{
+    font-weight: bold;
+    color:brown;
+    
+}
+.add-hotel-btn{
+    background-color: brown;
+    color:white;
+    cursor: pointer;
+}

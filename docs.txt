@@ -30,4 +30,9 @@ module management command runscript
 for cities  $ python manage.py runscript city_csv_gen
 for hotels  $ python manage.py runscript hotel_csv_gen
 #########################################################################################    
-TODO: may be to add args/kwargs to runscript command (city/hotel)        
+TODO: may be to add args/kwargs to runscript command (city/hotel)    
+
+Flow:
+1. superuser can via admin panel create hotel manager|=> via post_save signal correcp user gets attr == is_hotel_magaer
+2. hotel manager can only manage hotels in a given city ( via UI in meny; no access to admin panel)
+? single hotel manager vs many hotel managers for 1 ciy
