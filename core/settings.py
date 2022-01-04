@@ -49,8 +49,7 @@ INSTALLED_APPS = [
     # custom  
     'users.apps.UsersConfig',  
     'city.apps.CityConfig',  
-    # 'users',
-    # 'city',
+    
 ]
 
 MIDDLEWARE = [
@@ -124,6 +123,15 @@ ACCOUNT_USERNAME_BLACKLIST = ["admin", "administrator", "moderator"]
 ACCOUNT_LOGOUT_REDIRECT_URL ="/"
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/'
+
+
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_SUBJECT_PREFIX = 'greet from cities'
+DEFAULT_FROM_EMAIL = 'myadmin@mail.com'
 
 LANGUAGE_CODE = 'en-us'
 
