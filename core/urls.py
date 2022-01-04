@@ -11,9 +11,10 @@ from ajax_select import urls as ajax_select_urls
 admin.autodiscover()
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')), 
+    path('',TemplateView.as_view(template_name='home.html'),name='home'),
     path('ajax_select/', include(ajax_select_urls)),
-    path('admin/', admin.site.urls), 
-    path('',TemplateView.as_view(template_name='home.html')),
     path('cities/',include('city.urls')),   
     
 ]

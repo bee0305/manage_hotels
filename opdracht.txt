@@ -36,6 +36,7 @@ https://github.com/bee0305/manage_hotels
 [-] fixtures
 
 3. Extra
+[-] admin add hotel_manager to admin hotels (search/just name)
 [-] htmx for city/hotels cruds
 [-] logs
 

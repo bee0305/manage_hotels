@@ -60,6 +60,7 @@ def get_city_hotels(request, city_name):
 
 
 def get_city_hotels_search(request):
+
     """
     func for ajax request from city list: via a search form with dj-ajax-select module;
     return a list of filtered hotels for a chosen city to render on the same page    
@@ -79,3 +80,6 @@ def get_city_hotels_search(request):
         else:
             print('form is invalid')
             return JsonResponse({"data": "invalid"})
+
+def manage_city(request):
+    return render(request,'cities/manage_city.html')

@@ -37,13 +37,20 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
     # third parties
-    'rest_framework',
     'ajax_select',
-    # custom    
-    'users',
-    'city',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'bootstrap4',    
+    # 'rest_framework',
+    # custom  
+    'users.apps.UsersConfig',  
+    'city.apps.CityConfig',  
+    # 'users',
+    # 'city',
 ]
 
 MIDDLEWARE = [
@@ -100,8 +107,23 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+AUTHENTICATION_BACKENDS = [    
+    'django.contrib.auth.backends.ModelBackend',    
+    'allauth.account.auth_backends.AuthenticationBackend',    
+]
 
+SITE_ID = 1
 
+# module allauth
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_USERNAME_BLACKLIST = ["admin", "administrator", "moderator"]
+# ACCOUNT_LOGOUT_REDIRECT_URL (=`settings.LOGOUT_REDIRECT_URL or “/”`)
+ACCOUNT_LOGOUT_REDIRECT_URL ="/"
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/'
 
 LANGUAGE_CODE = 'en-us'
 
