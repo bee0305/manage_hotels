@@ -6,7 +6,15 @@ from django.conf import settings
 from city.models import City, Hotel
 
 
+def write_to_csv(data,path):
+    """help func to write into csv file on a given path"""
+    with open(path,'wb') as fh:
+        fh.write(data)      
+        
+
+
 def make_request_cities(url):
+    """help func to fetch data from api and create city objects"""
     resp = requests.get(url=url, auth=HTTPBasicAuth(settings.CSV_HOST, settings.CSV_PSW))
     # splitting on \n chars; returns iterable for csv.reader method
     lines = resp.text.splitlines()
@@ -17,9 +25,9 @@ def make_request_cities(url):
         if collection:
             # "BER";"Berlijn"
             # print(collection[0],type(collection[0]))
-            short_cut = str(collection[0])
+            city_code = str(collection[0])
             name = collection[1].strip('"')
-            city, _ = City.objects.get_or_create(name=name, short_cut=short_cut)
+            city, _ = City.objects.get_or_create(name=name, city_code=city_code)
             # TODO: add logger here         
         else:
             continue
@@ -27,6 +35,7 @@ def make_request_cities(url):
 
 def make_request_hotels_slow(url):
     """
+    help func to fetch data from api and create hotel objects
     1.This func is slow but in case if api point requested on regular base and 
     hotel data already exists |=> method get_or_create more suitable for updating the data
     if changed on api ( can be improved with async task celery/raw sql if no need data validation)
@@ -40,11 +49,11 @@ def make_request_hotels_slow(url):
     for row in reader:
         collection = row[0].split(';')
         if collection:
-            short_cut = str(collection[0].strip('"'))
+            city_code = str(collection[0].strip('"'))
             unid = str(collection[1].strip('"'))
             name = collection[2].strip('"')
-            city = get_object_or_404(City, short_cut=short_cut)
-            hotel, _ = Hotel.objects.get_or_create(unid=unid, short_cut=short_cut, name=name, city=city)
+            city = get_object_or_404(City,city_code=city_code )
+            hotel, _ = Hotel.objects.get_or_create(unid=unid, city_code=city_code, name=name, city=city)
             # TODO: add logger here    
 
         else:
