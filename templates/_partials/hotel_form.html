@@ -1,0 +1,46 @@
+{% load static %}
+{% load widget_tweaks %}
+    <form class="d-flex flex-column" >         
+        {% csrf_token %}
+        {% for field in hotel_form.visible_fields %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field|add_class:'form-control' }}
+            {% for error in field.errors %}
+            <span class="help-block form-err">{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <div class="form-group">
+            {% if flag %}
+            <h5>See edit option? flag is: {{flag}},unid:{{hotel.unid}}</h5>
+            <button class="add-hotel-btn mt-3 rounded"                 
+                hx-post="{% url 'city:edit-hotel' unid=hotel.unid %}"
+                hx-target="#work-area"
+                type="submit"
+                >                
+                Edit hotel                            
+            </button>
+            {% else %}
+
+            <h5>Lets post</h5>
+            <button class="add-hotel-btn mt-3 rounded" 
+                hx-post="{% url 'city:add-new-hotel' %}"
+                hx-target="#work-area"
+                type="submit"
+                >                
+                Add new hotel                            
+            </button>
+            {% endif %}
+
+            
+                
+            
+        </div>    
+            
+    </form>
+    
+
+
+       

@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col-md-8">
+        <div>Hotel detail:</div>
+        <div>
+            Name: {{hotel.name}}            
+        </div>
+        <div>
+            UNID: {{hotel.unid}}
+        </div>
+        <div>
+            City: {{hotel.city}}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <button class="btn-success"  
+        hx-get="{% url 'city:start-edit-hotel' unid=hotel.unid %}"
+        hx-target="#work-area">Edit
+        </button>
+    </div>
+    <div class="col-md-6">
+        <div class="del-hotel"            
+            hx-delete="{% url 'city:delete-hotel' hotel.id %}"
+            hx-target="#work-area"
+            hx-confirm="Are you sure you wish to delete?">X</>
+        </div>  
+    </div>
+</div>
