@@ -18,8 +18,7 @@ htmx_urlpatterns = [
     path('hx-get-hotel-detail/<unid>', get_hotel_detail, name='hotel-detail'),   
     path('hx-start-edit-hotel/<unid>', start_hotel_edit, name='start-edit-hotel'),
     path('hx-finish-hotel-edit/<unid>', HXManageCity.as_view(), name='edit-hotel'),
-    path('hx-add-new-hotel/', HXManageCity.as_view(), name='add-new-hotel'),
-    # path('update/<int:pk>', edit, name='edit'),
+    path('hx-add-new-hotel/', HXManageCity.as_view(), name='add-new-hotel'),    
     path('hx-delete-hotel/<int:pk>', HXManageCity.as_view(), name='delete-hotel'),
     
     

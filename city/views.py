@@ -99,6 +99,7 @@ class ManageCity(LoginRequiredMixin,UserPassesTestMixin, View):
         return render(request,'cities/manage_city.html',ctx)      
 
 class HXManageCity(LoginRequiredMixin,UserPassesTestMixin, View): 
+
     """ htmx get and post requests with check hotel manager """
 
     def test_func(self):        
