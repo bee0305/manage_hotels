@@ -32,6 +32,7 @@ def make_request_cities(url):
         else:
             continue
 
+# Option N1: via get_or_create method
 
 def make_request_hotels_slow(url):
     """
@@ -58,6 +59,8 @@ def make_request_hotels_slow(url):
 
         else:
             continue
+
+# Option N2: bulk create methos
 
 # def make_request_hotels_fast_with_bulk(url):#
 #     # used bulk_create for db 

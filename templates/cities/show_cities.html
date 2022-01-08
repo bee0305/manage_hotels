@@ -7,6 +7,7 @@
             <h5>Search for hotels in a city</h5>            
             <form id="search-form" action="{% url 'city:city-hotels-search' %}">
                 <div class="form-group">
+                    <!-- dj-ajax select form -->
                     {{search_city_form.media}}
                     {{search_city_form}}
                 </div>                
@@ -42,7 +43,7 @@
 
 {% block js %}
 <script type="text/javascript">
-    
+    // reqular ajax via tag <a>
     $(".get-hotels").on('click',function(e){
         e.preventDefault();
         let hotelList = $("#hotel-list");   
@@ -73,11 +74,11 @@
                 
             })
             
-            // searchResult.text = city
+            
         })
         
     })  
-    // submit search form with auto-complete
+    // submit search form with auto-complete= dja-ajax -select package
     $('#search-form').on('submit',function(e){
         e.preventDefault();
 

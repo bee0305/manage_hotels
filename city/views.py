@@ -48,7 +48,7 @@ class CityListView(ListView):
 
 def get_city_hotels(request, city_name):
     """
-    func for ajax request from city list: via a tag with city name;
+    regular ajax jquery request via <a>-tag
     return a list of filtered hotels for a chosen city to render on the same page    
     """
     if city_name:
@@ -65,9 +65,9 @@ def get_city_hotels(request, city_name):
 
 
 def get_city_hotels_search(request):
-
     """
-    func for ajax request from city list: via a search form with dj-ajax-select module;
+    dj-ajax-select package with search form
+    ajax request 
     return a list of filtered hotels for a chosen city to render on the same page    
     """
 

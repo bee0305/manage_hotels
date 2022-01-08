@@ -13,7 +13,10 @@ class TestViews(TestCase):
         self.city = City.objects.create(name='zoo', city_code='abc')
         self.hotel = Hotel.objects.create(name='qwerty', city_code='try', unid='uiop', city=self.city)
 
-    def test_get_ajax(self):
+    def test_get_ajax_a_tag(self):
+        """
+        test ajax req to fetch all cities (cbv CityListView)
+        """
         response = self.client.get(self.ajax_url)
         expected_content = {'hotels': '[{"name": "qwerty", "id": 1}]', 'city': '{"city": "zoo"}'}
         self.assertEqual(response.status_code, 200)
@@ -24,7 +27,8 @@ class TestViews(TestCase):
 
     def test_list_cities_search_form_jquery(self):
         """
-        check if context contains a form with city== field obj class AutoCompleteSelectField (jquery)
+        based on dj-ajax-select package
+        check if context contains a search-form for city== field obj class AutoCompleteSelectField (jquery)
         """
         resp = self.client.get(self.all_cities_url)
 
@@ -36,7 +40,8 @@ class TestViews(TestCase):
 
     def test_get_ajax_search(self):
         """
-        test search_city_form with city == integer(id=city) jquery module disign
+        based on dj-ajax-select package
+        test search_city_form with city == integer(id=city) jquery module design
         example get request: GET /cities/city-hotels-search/?city_text=&city=6 HTTP/1.1
         
         """
