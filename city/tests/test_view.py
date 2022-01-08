@@ -10,8 +10,8 @@ class TestViews(TestCase):
         self.all_cities_url = reverse('city:all-cities')
         self.ajax_url = reverse('city:city-hotels', kwargs={'city_name': 'zoo'})
         self.ajax_search_url = reverse('city:city-hotels-search')
-        self.city = City.objects.create(name='zoo', short_cut='abc')
-        self.hotel = Hotel.objects.create(name='qwerty', short_cut='try', unid='uiop', city=self.city)
+        self.city = City.objects.create(name='zoo', city_code='abc')
+        self.hotel = Hotel.objects.create(name='qwerty', city_code='try', unid='uiop', city=self.city)
 
     def test_get_ajax(self):
         response = self.client.get(self.ajax_url)

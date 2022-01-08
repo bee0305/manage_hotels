@@ -40,12 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.staticfiles',
     # third parties
-    'ajax_select',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'ajax_select',
+    'django_htmx',
     'bootstrap4', 
-    'widget_tweaks',   
+    'widget_tweaks',
+    'django_extensions',   
     # 'rest_framework',
     # custom  
     'users.apps.UsersConfig',  
@@ -61,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -113,6 +116,8 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SITE_ID = 1
+
+SHELL_PLUS = "ipython"
 
 # module allauth
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"

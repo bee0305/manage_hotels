@@ -38,3 +38,25 @@ body {
     color:white;
     cursor: pointer;
 }
+.del-hotel{
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    border:1px solid black;
+    width:30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: brown;
+    color:white;
+}
+.update-hotel{    
+    /* border:1px solid black;    */
+    background-color: brown;
+    color:white;
+    cursor: pointer;
+}
+.form-err{
+    color:red;
+}
+/* dinamic create new hotel btn */
+

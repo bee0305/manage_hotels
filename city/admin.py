@@ -5,13 +5,14 @@ from .forms import CityForm
 
 @admin.register(Hotel)
 class HotelAdmin(admin.ModelAdmin):
+    """"""
     form = CityForm
-    list_display = ('id','name','unid','short_cut')
+    list_display = ('id','name','unid','city_code')
     list_filter = ( 'city',)
 
 
 @admin.register(City)
-class CityAdmin(admin.ModelAdmin):
-    list_display = ('id','name')
+class CityForm(admin.ModelAdmin):
+    list_display = ('id','name','city_code')
 
 

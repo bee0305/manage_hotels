@@ -36,3 +36,22 @@ Flow:
 1. superuser can via admin panel create hotel manager|=> via post_save signal correcp user gets attr == is_hotel_magaer
 2. hotel manager can only manage hotels in a given city ( via UI in meny; no access to admin panel)
 ? single hotel manager vs many hotel managers for 1 ciy
+
+
+<div class="form-group">
+    {% if edit_flag %}
+        <button class="add-hotel-btn mt-3 rounded" 
+            hx-put="{% url 'city:finish-edit-hotel' hotel.unid %}"
+            hx-target="#work-area"
+            type="submit">                
+            Edit hotel                            
+        </button>
+    {% else %}
+        <button class="add-hotel-btn mt-3 rounded" 
+            hx-post="{% url 'city:add-new-hotel' %}"
+            hx-target="#work-area"
+            type="submit">                
+            Add new hotel                            
+        </button>
+    {% endif %}
+</div>    

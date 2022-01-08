@@ -1,14 +1,33 @@
 <div>
-    {% for hotel in hotels%}
-    <div class="d-flex justify-content-between">
-        <p>{{hotel}} {{hotel.unid}}</p>
-        <span class="badge badge-primary badge-pill pill-bg"
-        style="cursor: pointer;"
-        hx-delete="{% url 'city:delete-hotel' hotel.id%}"
-        hx-target="#hotel-list"
-        hx-confirm="Are you sure you wish to delete?">X</span>
-             
+    {% if hotels %}
+        <div class="row">
+            <div class="col-md-4">Name</div>
+            <div class="col-md-4">Detail</div>
+            <div class="col-md-4">Delete</div>
+        </div>
+        <hr>
+            {% for hotel in hotels%} 
+            <div class="row mt-2 mb-2">   
+                <div class="col-md-4">{{hotel}} {{hotel.unid}}</div>
+                <div class="col-md-4 update-hotel rounded text-center" 
+                    hx-get="{% url 'city:hotel-detail' hotel.unid %}"
+                    hx-target="#work-area">Detail
+                </div>
+                <div class="col-md-4">
+                    <div class="del-hotel"                    
+                    hx-delete="{% url 'city:delete-hotel' hotel.id %}"
+                    hx-target="#work-area"
+                    hx-confirm="Are you sure you wish to delete?">X</>
+                    </div>         
+                    
+                </div>   
+            </div>
+            {% endfor %}
+    {% else %}    
+    <div>No hotels yet</div>
 
-    </div>
-    {% endfor %}
+    {% endif %}    
+
+               
+         
 </div>

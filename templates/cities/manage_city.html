@@ -1,49 +1,54 @@
 {% extends '../base.html' %}
 {% load static %}
 {% load widget_tweaks %}
+{% load django_htmx %}
+{% django_htmx_script %}
 
 {% block content %}
 <div class="container-fluid mt-5">
-    <h5 class="text-center">Manage your hotels in {{city}} </h5> 
+    <h5 class="text-center">Manage hotels in {{city}}</h5>
+    <div class="row">
+        <div class="col-md-6 text-sm-left text-lg-left">Dashboard</div>
+        <div class="col-md-6 text-lg-left text-sm-left">#</div>
+    </div>      
     
     <hr>
     <div class="row">
-        <div class="col-md-6 d-flex justify-content-start">
-            <div class="hotel-menu">Sort hotels</div>
-        </div>
-        <!-- <div class="col-md-6 d-flex justify-content-center">
-            <div class="hotel-menu">Add hotels</div>
-        </div>         -->
+        <div class="col-md-3 hotel-menu text-left">
+            <button hx-get="{% url 'city:manage-hotels' action='form'  %}" 
+                    hx-target="#work-area"
+                    class="add-hotel-btn mt-3 rounded">
+                Add Hotel          
+            </button>
+            
+        </div>            
+        <div class="col-md-4 hotel-menu text-left">
+            <button hx-get="{% url 'city:manage-hotels' action='hotels' %}" 
+                    hx-target="#work-area"
+                    class="add-hotel-btn mt-3 rounded">
+                List Hotels          
+            </button>
+            
+        </div>           
+        <div class="col-md-5 hotel-menu text-left">Sort hotels</div>          
     </div>
     <hr>
-    <div class="row">
-        {% if hotels%}
-            <div class="col-md-7" id="hotel-list">
-                {% include "_partials/list_hotels.html" with hotels=hotels%}
-            </div>     
-        {% else%}
-            <div class="col-md-5" id="hotel-list">
-                No hotels yet
-            </div>     
-        {% endif%}    
-        <div class="col-md-5 d-flex justify-content-center">
-            <div class="form-hotel-wrap">
-                <p class="lead ml-0">My Films</p>
-                <form class="d-flex flex-column">         
-                    {% csrf_token %}
-                    <label for="hotelname">Enter a new hotel name: </label>
-                    <input type="text" name="hotelname" id="hotelname" class="mr-2 rounded " placeholder="Hotel name">
-                    </input>   
-                    <button class="add-hotel-btn mt-3 rounded" 
-                        hx-post="{% url 'city:add-new-hotel' %}"
-                        hx-target="#hotel-list"
-                        type="submit">
-                        Add new hotel
-                    </button>            
-                </form>
-            </div>
 
-        </div>
+    <div class="row">
+        <div class="col-md-12  dinamic-content">
+            <div id="work-area" class="justify-content-md-around">
+                {% include '_partials/list_hotels.html' with hotels=hotels %}
+            </div>            
+                
+        </div>  
     </div>
 </div>
 {% endblock %}    
+               
+
+        
+         
+        
+            
+            
+       

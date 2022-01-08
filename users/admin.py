@@ -1,13 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
-from django.contrib.auth.admin import AdminPasswordChangeForm
-from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from django.contrib.auth.forms import ReadOnlyPasswordHashField
+
 from django.utils.translation import gettext as _
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-from users.models import HotelManager
 from .models import HotelManager
 
 
@@ -19,21 +16,18 @@ class UserAdmin(BaseUserAdmin):
     search_fields = ('email', 'username')
     form = UserChangeForm
     add_form = UserCreationForm
-    list_display = (
-    'id', 'email', 'username', 'last_login', 'is_active', 'is_superuser','is_hotel_manager')
+    list_display = ('id', 'email', 'username', 'last_login', 'is_active', 'is_superuser','is_hotel_manager')
     list_filter = ( 'is_active', 'is_superuser','is_hotel_manager')
 
-    # add key 'classes' with value [collapse ] to toggle Important Dates
+    # add key 'classes' with value [collapse ] to toggle Permissions,Important Dates
     fieldsets = (
         (_('User'), {'fields': ('username', 'email', 'password', 'is_active')}),
         (_('Permissions'), {'classes': ['collapse'], 'fields': (
             'is_hotel_manager','is_superuser', 'groups', 'user_permissions',)}),
         (_('Important dates'), {'classes': ['collapse'], 'fields': ('last_login', 'date_joined')}),
 
-    )
-
-    # for changing a existed user <== UserCreationForm
-    # otherwise it'll look for usename as ident
+    )    
+    
     add_fieldsets = (
         (('Add Your User'), {
             'classes': ('wide',),
@@ -44,7 +38,8 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ('groups', 'user_permissions')
 
 
+
 admin.site.register(User, UserAdmin)
 admin.site.register(HotelManager)
 
-# Register your models here.
+
