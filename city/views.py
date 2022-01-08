@@ -19,7 +19,8 @@ def load_cities(request, url=settings.CITY_URL):
     of City objects
     """
     make_request_cities(url)
-    return render(request, 'cities/show_cities.html')
+    print('Cities req done')
+    return render(request, 'cities/api_requests.html',{'msg':'api request cities done'})
 
 
 def load_hotels(request, url=settings.HOTEL_URL):
@@ -28,7 +29,8 @@ def load_hotels(request, url=settings.HOTEL_URL):
     of Hotel objects
     """
     make_request_hotels_slow(url)
-    return render(request, 'cities/show_cities.html')
+    print('hotel req done')
+    return render(request, 'cities/api_requests.html',{'msg':'api request hotels  done'})
 
 
 class CityListView(ListView):
