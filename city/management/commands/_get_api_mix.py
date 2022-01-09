@@ -15,9 +15,7 @@ class Command(BaseCommand):
         First request.head if resp OK => request.get         
     """
     help = 'Make api call to fetch all cities or hotels'
-
-    def add_arguments(self, parser):
-        parser.add_argument('--fetch', default='city')
+    
 
     def handle(self, *args, **options):
 

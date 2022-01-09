@@ -1,19 +1,21 @@
 #Cron get_api every 1 minute
 $sudo crontab -e
-*/1 * * * * + command (see below)
+*/1 * * * *  path-to-sh-file 
 
-# for wsl2 (seems systemd does not boot on wsl2)|=>
+
 $ sudo /etc/init.d/cron start
  * Starting periodic command scheduler cron                                                                      [ OK ]
-(venv) ...:~/dj/travel/city$ service --status-all
- [ - ]  apparmor
+$ service --status-all 
  [ + ]  cron
 
 # check (current)
-*/1 *  *    *   *    '/home/tanja/dj/travel/city/city/cron/get_api.sh'
+$chmod a+x get_city.sh
+$chmod a+x get_hotel.sh
+$./get_city.sh
+$./get_hotel.sh
 
-chmod +x /home/tanja/dj/travel/city/city/cron/get_api.sh
- # check
- bash -c '/home/tanja/dj/venv/bin/python manage.py get_api'
+#
+*/1 *  *    *   *    /home/..../city/city/cron/get_hotel.sh
 
-# commands wsl2
+ 
+
