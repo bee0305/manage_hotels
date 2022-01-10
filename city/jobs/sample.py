@@ -6,4 +6,5 @@ class Job(BaseJob):
 
     def execute(self):
         # executing empty sample job
-        print("here i am")
+        with open('./info_city.txt','a') as fh:
+                    fh.write('some text')
