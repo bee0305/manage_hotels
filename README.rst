@@ -1,22 +1,34 @@
-#Cron get_api every 1 minute
-$sudo crontab -e
-*/1 * * * *  path-to-sh-file 
+Cron 
+======
+Management commands: 
+------------------
+* get_city
+* get_hotel
+
+*/1 *  *    *   *    /home/..../city/city/cron/get_hotel.sh >> /home/.../logs/city.log
+---------------------------------------------------------------------------------------
 
 
-$ sudo /etc/init.d/cron start
- * Starting periodic command scheduler cron                                                                      [ OK ]
-$ service --status-all 
+Help info:
+----------
+``-`` $ sudo /etc/init.d/cron start
+``-`` $sudo crontab -e
+``-`` */1 * * * *  path-to-sh-file 
+
+
+Starting periodic command scheduler cron                                                                      
+----------------------------------------
+``-`` $ service --status-all 
  [ + ]  cron
 
-# check (current)
-$chmod a+x get_city.sh
-$chmod a+x get_hotel.sh
-$./get_city.sh
-$./get_hotel.sh
+Check
+------
+``-`` $chmod a+x get_city.sh
+``-`` $chmod a+x get_hotel.sh
 
 
-# */1 *  *    *   *    /home/..../city/city/cron/get_hotel.sh >> /home/.../logs/city.log
-@daily *  *    *   *    /home/..../city/city/cron/get_hotel.sh >> /home/.../logs/city.log
+
+
 
  
 
