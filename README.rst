@@ -14,8 +14,9 @@ $chmod a+x get_hotel.sh
 $./get_city.sh
 $./get_hotel.sh
 
-#
-*/1 *  *    *   *    /home/..../city/city/cron/get_hotel.sh
+
+# */1 *  *    *   *    /home/..../city/city/cron/get_hotel.sh >> /home/.../logs/city.log
+@daily *  *    *   *    /home/..../city/city/cron/get_hotel.sh >> /home/.../logs/city.log
 
  
 
