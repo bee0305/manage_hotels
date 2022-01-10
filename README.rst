@@ -1,6 +1,7 @@
 Cron 
 ======
-| -- **Management commands: **
+
+| Management commands: 
 
 * get_city
 * get_hotel
@@ -8,8 +9,9 @@ Cron
 | */1 *  *    *   *    /home/..../city/city/cron/get_hotel.sh >> /home/.../logs/city.log
 
 
-| -- **Help info** 
-----------
+| -- Help info 
+---------------------
+
 * $ sudo /etc/init.d/cron start
 * $ sudo crontab -e
 * $ service --status-all 
@@ -17,6 +19,7 @@ Cron
 
 Check
 ------
+
 * chmod a+x get_city.sh
 * chmod a+x get_hotel.sh
 
