@@ -1,4 +1,16 @@
 <div class="row">
+    <div class="col-md-6 text-left">
+        {% if messages %}   
+         <!--after html loads -> make axjax request to clear msg with delay after load 3 sec  -->
+        <ul class="messages" hx-get="{% url 'city:clear' %}" hx-trigger="load delay:3s">
+            {% for msg in messages %}
+            <li {% if msg.tags%} class="{{msg.tags}}" {% endif %}>{{msg}}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+</div>
+<div class="row">    
     <div class="col-md-8">
         <div>Hotel detail:</div>
         <div>
@@ -12,7 +24,9 @@
         </div>
     </div>
 </div>
+
 <div class="row">
+    
     <div class="col-md-6">
         <button class="btn-success"  
         hx-get="{% url 'city:start-edit-hotel' unid=hotel.unid %}"

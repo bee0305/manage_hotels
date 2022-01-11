@@ -5,23 +5,23 @@
 {% django_htmx_script %}
 
 {% block content %}
-<div class="container-fluid mt-5">
-    <h5 class="text-center">Manage hotels in {{city}}</h5>
-    <div class="row">
-        <div class="col-md-6 text-sm-left text-lg-left">Dashboard</div>
-        <div class="col-md-6 text-lg-left text-sm-left">#</div>
+<div class="container-fluid mt-5">    
+    <div class="d-flex justify-content-center">
+        <h5 class="text-center">Manage hotels in {{city}}</h5>        
+    </div>   
+    <div class="row d-flex justify-content-end">            
+            <!-- trigger modifier == keyup with request delayed by 500msec -->
+            <div class="col-md-6 d-flex flex-column mb-4">
+                <input type="text" hx-get="{% url 'city:hx-hotels-search' %}" 
+                hx-target="#work-area" 
+                hx-trigger="keyup changed delay:700ms"
+                name="search" class="form-control mt-3" placeholder="search for hotels">                
+                <span class="text-muted">Keyup event delay 700msec</span>
+            </div>
     </div>      
-    
     <hr>
-    <div class="row">
-        <div class="col-md-3 hotel-menu text-left">
-            <button hx-get="{% url 'city:manage-hotels' action='form'  %}" 
-                    hx-target="#work-area"
-                    class="add-hotel-btn mt-3 rounded">
-                Add Hotel          
-            </button>
-            
-        </div>            
+    <div class="row d-flex justify-content-lg-between">
+                 
         <div class="col-md-4 hotel-menu text-left">
             <button hx-get="{% url 'city:manage-hotels' action='hotels' %}" 
                     hx-target="#work-area"
@@ -29,8 +29,16 @@
                 List Hotels          
             </button>
             
-        </div>           
-        <div class="col-md-5 hotel-menu text-left">Sort hotels</div>          
+        </div>
+        <div class="col-md-3 hotel-menu text-left">
+            <button hx-get="{% url 'city:manage-hotels' action='form'  %}" 
+                    hx-target="#work-area"
+                    class="add-hotel-btn mt-3 rounded">
+                Add Hotel          
+            </button>
+            
+        </div>              
+                
     </div>
     <hr>
 

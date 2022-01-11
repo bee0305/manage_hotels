@@ -1,10 +1,11 @@
 import json
 from django.conf import settings
-
+from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, render,redirect
 from django.views.generic import ListView,View
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
+from django.contrib import messages
 
 from city.forms import SearchForm
 from users.models import HotelManager
@@ -40,6 +41,7 @@ class CityListView(ListView):
     template_name = 'cities/show_cities.html'
 
     def get_context_data(self, **kwargs):
+        """ enjects dj-ajax-selects search form into template; proccessing in another func (get_city_hotels_search)"""
         context = super().get_context_data(**kwargs)
         search_city_form = SearchForm()
         context['search_city_form'] = search_city_form
@@ -66,8 +68,7 @@ def get_city_hotels(request, city_name):
 
 def get_city_hotels_search(request):
     """
-    dj-ajax-select package with search form
-    ajax request 
+    ajax request via dj-ajax-selects package with search form     
     return a list of filtered hotels for a chosen city to render on the same page    
     """
 
@@ -91,12 +92,17 @@ class ManageCity(LoginRequiredMixin,UserPassesTestMixin, View):
     def test_func(self):
         # print(self.request.user.is_hotel_manager)
         return self.request.user.is_hotel_manager
-    def get(self,request,*args,**kwargs):  
+
+    def get(self,request,*args,**kwargs):         
+        search_word = request.GET.get('search')
         manager = HotelManager.objects.filter(user=request.user).last()
-        city = manager.city  
-        ctx = {'city':city.name}       
+        
+        hotels = manager.city.hotels.filter(name__icontains=search_word)  
+        ctx = {'hotels':hotels}       
             
-        return render(request,'cities/manage_city.html',ctx)      
+        return render(request,'_partials/list_hotels.html',ctx)  
+def clear(request):
+    return   HttpResponse('')          
 
 class HXManageCity(LoginRequiredMixin,UserPassesTestMixin, View): 
 
@@ -140,6 +146,7 @@ class HXManageCity(LoginRequiredMixin,UserPassesTestMixin, View):
             hotel_form = HotelForm(request.POST,instance=obj)
             if hotel_form.is_valid():                
                 hotel = hotel_form.save()
+                messages.success(request,f"edited a new record hotel")
                 return render(request, '_partials/hotel_detail.html', {'hotel':hotel})
             else:
                 # show form with errors
@@ -152,6 +159,7 @@ class HXManageCity(LoginRequiredMixin,UserPassesTestMixin, View):
                 hotel = hotel_form.save(commit=False)                
                 hotel.city = city
                 hotel.save()
+                messages.success(request,f"created a new record hotel")
                 return render(request, '_partials/hotel_detail.html', {'hotel':hotel})
             else:
                 print('err in form') 
@@ -203,3 +211,12 @@ def start_hotel_edit(request,unid):
             print(e)            
             return render(request, '_partials/404.html')
 
+def get(self,request,*args,**kwargs): 
+        print('args:',args) 
+        print('kwargs:',kwargs)
+        print('req GET',request.GET.get('search'))
+        manager = HotelManager.objects.filter(user=request.user).last()
+        city = manager.city  
+        ctx = {'city':city.name}       
+            
+        return render(request,'cities/manage_city.html',ctx)   

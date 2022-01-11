@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import (load_cities, load_hotels, CityListView, get_city_hotels, 
-                    get_city_hotels_search,get_hotel_detail,start_hotel_edit, HXManageCity)
+from .views import (CityListView, HXManageCity,ManageCity,get_city_hotels, load_cities, load_hotels, 
+                    get_city_hotels_search,get_hotel_detail,start_hotel_edit,clear )
 
 app_name = 'city'
 
@@ -20,6 +20,8 @@ htmx_urlpatterns = [
     path('hx-finish-hotel-edit/<unid>', HXManageCity.as_view(), name='edit-hotel'),
     path('hx-add-new-hotel/', HXManageCity.as_view(), name='add-new-hotel'),    
     path('hx-delete-hotel/<int:pk>', HXManageCity.as_view(), name='delete-hotel'),
+    path('hx-city-hotels-search', ManageCity.as_view(), name='hx-hotels-search'),
+    path('clear',clear,name='clear')
     
     
 ]
