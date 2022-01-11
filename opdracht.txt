@@ -1,4 +1,4 @@
-https://github.com/bee0305/manage_hotels
+https://github.com/bee0305/manage_hotels (2 branches)
 
 =============
 1. Required ||
@@ -29,10 +29,12 @@ https://github.com/bee0305/manage_hotels
 [X] admin for city,hotels
 [X] User (optional attr = is_hotel_manager)
 [X] HotelManager model ( User group HotelManagers not implemented : ivm restriction spec object city perms)
-[-] hotel manager for a given city can CRUD hotels
+[X] hotel manager for a given city can CRUD hotels
 [X] admin can crud any city/hotel (by create hotel: corresp city via search form (no dropdown) 3 chars)
-[-] each day data via crontab
-[?] cron for custom management command ( failed on wsl2)
+[X] each day data via cron
+[X] cron for custom management command 
+[X] management commands with django-django_extentions()
+[?] cron  django-django_extentions()
 [-] fixtures
 
 ===========
@@ -41,7 +43,7 @@ https://github.com/bee0305/manage_hotels
 [-] admin template: display hotel_manager for a given city  or (search/just name)
 [X] hotel managers: crud hotels in a corresp city with HTMX
 [-] logs
-[-] re-arrange fbv => cbv where it makes sense
+[X] re-arrange fbv => cbv where it makes sense
 [-] make folder views to separ api func from another
 [-] pagination
 
