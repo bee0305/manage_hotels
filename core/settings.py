@@ -20,6 +20,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 DEBUG = env('DEBUG')
 
+
 CSV_HOST = env('CSV_HOST')
 CSV_PSW = env('CSV_PSW')
 CITY_URL= env('CITY_URL')
@@ -149,8 +150,8 @@ USE_TZ = True
 
 
 STATIC_URL = 'static/'
-
 STATICFILES_DIRS = (BASE_DIR/'static',)
+FIXTURE_DIRS = ['fixtures']
 
 
 

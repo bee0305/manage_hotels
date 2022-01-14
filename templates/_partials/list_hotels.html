@@ -1,5 +1,7 @@
 <div>
     {% if hotels %}
+    <p>fff</p>
+    
         <div class="row">
             <div class="col-md-4">Name</div>
             <div class="col-md-4">Detail</div>
@@ -8,16 +10,18 @@
         <hr>
             {% for hotel in hotels%} 
             <div class="row mt-2 mb-2">   
-                <div class="col-md-4">{{hotel}} {{hotel.unid}}</div>
-                <div class="col-md-4 update-hotel rounded text-center" 
+                <div class="col-md-4">{{hotel}} {{hotel.unid}} id={{hotel.id}} </div>
+                <div class="col-md-4 update-hotel rounded text-center"                 
                     hx-get="{% url 'city:hotel-detail' hotel.unid %}"
                     hx-target="#work-area">Detail
+                    <!-- <div class="htmx-indicator">Loading ........</div> -->                  
+                   
                 </div>
                 <div class="col-md-4">
                     <div class="del-hotel"                    
-                    hx-delete="{% url 'city:delete-hotel' hotel.id %}"
+                    hx-delete="{% url 'city:delete-hotel' hotel.id hotel.city.slug %}"
                     hx-target="#work-area"
-                    hx-confirm="Are you sure you wish to delete?">X</>
+                    hx-confirm="Are you sure you wish to delete this hotel?">X</>
                     </div>         
                     
                 </div>   

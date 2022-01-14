@@ -23,7 +23,7 @@
     <div class="row d-flex justify-content-lg-between">
                  
         <div class="col-md-4 hotel-menu text-left">
-            <button hx-get="{% url 'city:manage-hotels' action='hotels' %}" 
+            <button hx-get="{% url 'city:manage-hotels' action='hotels' city_slug=city.slug %}" 
                     hx-target="#work-area"
                     class="add-hotel-btn mt-3 rounded">
                 List Hotels          
@@ -31,7 +31,7 @@
             
         </div>
         <div class="col-md-3 hotel-menu text-left">
-            <button hx-get="{% url 'city:manage-hotels' action='form'  %}" 
+            <button hx-get="{% url 'city:manage-hotels' action='form' city_slug=city.slug %}" 
                     hx-target="#work-area"
                     class="add-hotel-btn mt-3 rounded">
                 Add Hotel          

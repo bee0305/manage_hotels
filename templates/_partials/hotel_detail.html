@@ -28,14 +28,14 @@
 <div class="row">
     
     <div class="col-md-6">
-        <button class="btn-success"  
-        hx-get="{% url 'city:start-edit-hotel' unid=hotel.unid %}"
+        <button class="btn-lg btn-success rounded mt-3"  
+        hx-get="{% url 'city:start-edit-hotel' unid=hotel.unid city_slug=hotel.city.slug %}"
         hx-target="#work-area">Edit
         </button>
     </div>
     <div class="col-md-6">
         <div class="del-hotel"            
-            hx-delete="{% url 'city:delete-hotel' hotel.id %}"
+            hx-delete="{% url 'city:delete-hotel' hotel.id hotel.city.slug %}"
             hx-target="#work-area"
             hx-confirm="Are you sure you wish to delete?">X</>
         </div>  

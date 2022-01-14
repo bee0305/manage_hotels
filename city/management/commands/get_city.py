@@ -7,13 +7,11 @@ from utils.request_help import make_request_cities
 
 
 class Command(BaseCommand):
-    """
-        two blocks: to fetch data from city api and hotel api with command:
+    """        
         for cities:  $python manage.py  get_cities (or python manage.py  get_cities --fetch city)
-        for hotels:  $python manage.py  get_cities --fetch hotel
-        First request.head if resp OK => request.get         
+        If request.head if resp OK => start request.get   to fetch data      
     """
-    help = 'Make api call to fetch all cities or hotels'
+    help = 'Make api call to fetch all cities'
 
     def handle(self, *args, **options):
 

@@ -1,0 +1,94 @@
+[
+{
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$320000$B4fUbywXLTjTAxAWgLwB1j$eBCLmUjqTK50qrnzBmX3eJJwc3B7y/pSG3pXice/cw0=",
+        "last_login": "2022-01-04T09:35:25.032Z",
+        "is_superuser": true,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2021-12-26T15:19:18.320Z",
+        "username": "tata",
+        "email": "tata@mail.com",
+        "is_hotel_manager": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$320000$R7wVz0XvyBB0r0EKnHVgUy$NNhmxHbhbR+muHJXnSn+DNZI2MrkJmYSgwYCY8qEIBA=",
+        "last_login": "2022-01-13T23:26:33.710Z",
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2022-01-04T09:36:36.996Z",
+        "username": "viola",
+        "email": "viola@mail.com",
+        "is_hotel_manager": false,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 5,
+    "fields": {
+        "password": "pbkdf2_sha256$320000$gInTkbQHj0Z7LwNpAJS2ke$pwsFc3EjmyqXfiNlunoBa3HA1q849/gOk3PIX1WyY9k=",
+        "last_login": "2022-01-14T13:57:15.240Z",
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2022-01-04T09:40:23Z",
+        "username": "sniff",
+        "email": "sniff@mail.com",
+        "is_hotel_manager": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 6,
+    "fields": {
+        "password": "pbkdf2_sha256$320000$PqTo45dE7l4Kls0DI63H31$G3D7ZVBDL2MGmZ3ajxPMcCTtBbV7JSxiVhGYNh7xhTo=",
+        "last_login": "2022-01-14T13:55:06.010Z",
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2022-01-04T09:52:25Z",
+        "username": "snork",
+        "email": "snork@mail.com",
+        "is_hotel_manager": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.hotelmanager",
+    "pk": 3,
+    "fields": {
+        "user": 5,
+        "city": 1
+    }
+},
+{
+    "model": "users.hotelmanager",
+    "pk": 6,
+    "fields": {
+        "user": 6,
+        "city": 5
+    }
+}
+]

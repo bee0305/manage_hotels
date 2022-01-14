@@ -27,7 +27,6 @@ class Hotel(models.Model):
     def save(self,*args,**kwargs):
         if not self.city_code:
             self.city_code = self.city.city_code
-            print('model says:',self.city_code)
         super().save(*args,**kwargs)
 
 

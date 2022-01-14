@@ -4,7 +4,8 @@ from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, render,redirect
 from django.views.generic import ListView,View
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
-from django.http import JsonResponse,HttpResponse
+from django.http import JsonResponse,HttpResponse,HttpResponseForbidden
+
 from django.contrib import messages
 
 from city.forms import SearchForm
@@ -95,12 +96,12 @@ class ManageCity(LoginRequiredMixin,UserPassesTestMixin, View):
 
     def get(self,request,*args,**kwargs):         
         search_word = request.GET.get('search')
-        manager = HotelManager.objects.filter(user=request.user).last()
-        
+        manager = HotelManager.objects.filter(user=request.user).last()        
         hotels = manager.city.hotels.filter(name__icontains=search_word)  
-        ctx = {'hotels':hotels}       
+        ctx = {'hotels':hotels}     
             
         return render(request,'_partials/list_hotels.html',ctx)  
+
 def clear(request):
     return   HttpResponse('')          
 
@@ -108,8 +109,28 @@ class HXManageCity(LoginRequiredMixin,UserPassesTestMixin, View):
 
     """ htmx get and post requests with check hotel manager """
 
-    def test_func(self):        
-        return self.request.user.is_hotel_manager       
+    def test_func(self): 
+        if self.request.user.is_superuser:
+            return True 
+        print('line from 113',self.kwargs.keys()) 
+        if self.request.user.is_hotel_manager:
+            city_slug = self.kwargs.get('city_slug') 
+            try:
+                print('line 119')
+                requested_city = City.objects.get(slug=city_slug)
+                print('req city',requested_city)
+                manager_perms_city  =  HotelManager.objects.filter(user=self.request.user).last()
+                print('user city is ',manager_perms_city.city) 
+                if requested_city == manager_perms_city.city:
+                    print('line 122, use can crud')
+                    return True
+                else:
+                    print('hfdh')    
+                
+            except:
+                return False   
+
+       
 
     def get(self,request,*args,**kwargs):  
         """
@@ -122,37 +143,41 @@ class HXManageCity(LoginRequiredMixin,UserPassesTestMixin, View):
         manager = HotelManager.objects.filter(user=request.user).last()
         city = manager.city        
         action = kwargs.get('action') 
-        if action =='form':            
+        if action =='form':                       
             hotel_form = HotelForm()       
-            ctx = {'hotel_form':hotel_form}     
+            ctx = {'hotel_form':hotel_form,'city':city}     
             return render(request,'_partials/hotel_form.html',ctx)
         else: 
             hotels = city.hotels.all().order_by('name')                           
-            if action == 'start':                
+            if action == 'start':    
+                print('I am now in START PAGE section')            
                 ctx = {'city':city,'hotels':hotels} 
+                print('to put into a template ctx:',ctx)
                 return render(request,'cities/manage_city.html',ctx)   
             elif action == 'hotels': 
-                ctx = {'hotels':hotels}     
+                ctx = {'city':city,'hotels':hotels}     
                 return render(request,'_partials/list_hotels.html',ctx)           
             
     def post(self,request,*args,**kwargs):  
-        #  "ANT";"ANT11";"Agora"  city_code;unid;name    
+        #  "ANT";"ANT11";"Agora"  city_code;unid;name                 
         manager =  HotelManager.objects.filter(user=request.user).last()    
         city = manager.city
         unid= kwargs.get('unid') 
-        if unid:
+        if unid: 
+            print('inside finish edit')           
             # edit existed object hotel
             obj = Hotel.objects.get(unid=unid)            
             hotel_form = HotelForm(request.POST,instance=obj)
             if hotel_form.is_valid():                
                 hotel = hotel_form.save()
-                messages.success(request,f"edited a new record hotel")
+                messages.success(request,f"edited hotel record")
                 return render(request, '_partials/hotel_detail.html', {'hotel':hotel})
             else:
                 # show form with errors
                 return render(request, '_partials/hotel_form.html', {'hotel_form':hotel_form,'flag':'errors'})     
         else: 
-            # create new object hotel            
+            # create new object hotel   
+            print('TRY TO CREATE')         
             hotel_form = HotelForm(request.POST)            
             if hotel_form.is_valid():
                 print('form is valid') 
@@ -166,21 +191,21 @@ class HXManageCity(LoginRequiredMixin,UserPassesTestMixin, View):
                 return render(request, '_partials/hotel_form.html', {'hotel_form':hotel_form})  
                               
     
-    def delete(self,request,*args,**kwargs):
+    def delete(self,request,*args,**kwargs):            
         id = kwargs.get('pk')
-        print('id is:',id)
-        manager =  HotelManager.objects.filter(user=request.user).last()    
-        city = manager.city
-        try:
-            Hotel.objects.get(id=id,city=city).delete()            
-            hotels = city.hotels.all().order_by('name')
+        city_slug = kwargs.get('city_slug')         
+        try:                   
+            city = City.objects.get(slug=city_slug)
+            hotel = Hotel.objects.get(id=id)           
+            hotel.delete()            
+            hotels = city.hotels.all().order_by('name')            
             return render(request, '_partials/list_hotels.html',{'hotels':hotels})            
         except Exception as e:
             print('obj not found') 
             print(e)            
             return render(request, '_partials/404.html')  
-        
 
+    
 
 def get_hotel_detail(request,unid): 
     #  "ANT";"ANT11";"Agora"  city_code;unid;name 
@@ -194,22 +219,23 @@ def get_hotel_detail(request,unid):
         except Exception as e:                      
             return render(request, '_partials/404.html')
 
-def start_hotel_edit(request,unid): 
+def start_hotel_edit(request,unid,city_slug):    
     #  return hotel form with intial vals     
-    user = request.user
-    if  user.is_hotel_manager:
+    requested_city = City.objects.get(slug=city_slug)
+    if  request.user.is_hotel_manager:
         manager =  HotelManager.objects.filter(user=request.user).last()    
         city = manager.city
-        try:
-            hotel = Hotel.objects.get(unid=unid,city=city)
-            print('hotel is',hotel,hotel.unid)
-            hotel_form = HotelForm(instance=hotel)            
-            return render(request, '_partials/hotel_form.html',
-                    {'hotel_form':hotel_form,'hotel':hotel,'flag':'ZOOOOO'})        
-        except Exception as e:
-            print('obj not found') 
-            print(e)            
-            return render(request, '_partials/404.html')
+        if city == requested_city:
+            try:
+                hotel = Hotel.objects.get(unid=unid,city=city)
+                print('hotel is',hotel)
+                hotel_form = HotelForm(instance=hotel)                           
+                return render(request, '_partials/hotel_form.html',
+                        {'hotel_form':hotel_form,'hotel':hotel,'flag':'ZOOOOO','city':city})        
+            except Exception as e:
+                print('obj not found') 
+                print(e)            
+                return render(request, '_partials/404.html')
 
 def get(self,request,*args,**kwargs): 
         print('args:',args) 

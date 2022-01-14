@@ -36,7 +36,7 @@
         </li>
           {% if user.is_hotel_manager and not user.is_staff %} 
             <li class="nav-item active">
-              <a class="nav-link" href="{% url 'city:manage-hotels' action='start' %}">Dashboard<span class="sr-only"></span></a>
+              <a class="nav-link" href="{% url 'city:manage-hotels' action='start' city_slug=user.hotel_manager.city.slug %}">Dashboard<span class="sr-only"></span></a>
             </li>
             <!-- <li class="nav-item active">
               <a class="nav-link" href=" url 'city:dump-db-hotes' %}">Update db hotels <span class="sr-only"></span></a>

@@ -8,20 +8,14 @@ from utils.request_help import make_request_hotels_slow
 
 class Command(BaseCommand):
     """
-        two blocks: to fetch data from city api and hotel api with command:
-        for cities:  $python manage.py  get_cities (or python manage.py  get_cities --fetch city)
-        for hotels:  $python manage.py  get_cities --fetch hotel
-        First request.head if resp OK => request.get         
+        for hotels:  $python manage.py  get_hotel
+        If request.head if resp OK => start request.get to fetch hotel data    
     """
     help = 'Make api call to fetch all cities or hotels'
 
-    def add_arguments(self, parser):
-        parser.add_argument('--fetch', default='city')
-
     def handle(self, *args, **options):
 
-        time = timezone.now().strftime('%X')  # 15:33:07
-        
+        time = timezone.now().strftime('%X')  # 15:33:07        
         url = settings.HOTEL_URL
         print('api call to fetch hotels')
         try:

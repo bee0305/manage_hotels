@@ -16,7 +16,7 @@
             {% if flag %}
             <h5>See edit option? flag is: {{flag}},unid:{{hotel.unid}}</h5>
             <button class="add-hotel-btn mt-3 rounded"                 
-                hx-post="{% url 'city:edit-hotel' unid=hotel.unid %}"
+                hx-post="{% url 'city:edit-hotel' unid=hotel.unid city_slug=city.slug %}"
                 hx-target="#work-area"
                 type="submit"
                 >                
@@ -26,7 +26,7 @@
 
             <h5>Lets post</h5>
             <button class="add-hotel-btn mt-3 rounded" 
-                hx-post="{% url 'city:add-new-hotel' %}"
+                hx-post="{% url 'city:add-new-hotel' city_slug=city.slug %}"
                 hx-target="#work-area"
                 type="submit"
                 >                

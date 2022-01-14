@@ -14,12 +14,12 @@ urlpatterns = [
 ]
 
 htmx_urlpatterns = [
-    path('manage-hotels/<action>',HXManageCity.as_view(),name='manage-hotels'),   
-    path('hx-get-hotel-detail/<unid>', get_hotel_detail, name='hotel-detail'),   
-    path('hx-start-edit-hotel/<unid>', start_hotel_edit, name='start-edit-hotel'),
-    path('hx-finish-hotel-edit/<unid>', HXManageCity.as_view(), name='edit-hotel'),
-    path('hx-add-new-hotel/', HXManageCity.as_view(), name='add-new-hotel'),    
-    path('hx-delete-hotel/<int:pk>', HXManageCity.as_view(), name='delete-hotel'),
+    path('manage-hotels/<action>/<city_slug>',HXManageCity.as_view(),name='manage-hotels'),   
+    path('hx-get-hotel-detail/<unid>/', get_hotel_detail, name='hotel-detail'),   
+    path('hx-start-edit-hotel/<unid>/<city_slug>', start_hotel_edit, name='start-edit-hotel'),
+    path('hx-finish-hotel-edit/<unid>/<city_slug>', HXManageCity.as_view(), name='edit-hotel'),
+    path('hx-add-new-hotel/<city_slug>', HXManageCity.as_view(), name='add-new-hotel'),    
+    path('hx-delete-hotel/<int:pk>/<city_slug>', HXManageCity.as_view(), name='delete-hotel'),
     path('hx-city-hotels-search', ManageCity.as_view(), name='hx-hotels-search'),
     path('clear',clear,name='clear')
     
