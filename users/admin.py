@@ -11,6 +11,12 @@ from .models import HotelManager
 User = get_user_model()
 
 
+
+class HotelManagerAdmin(admin.ModelAdmin):
+    list_display = ['user','city'] #,'managers']
+    # inlines = [HotelManagerInLine]
+
+
 class UserAdmin(BaseUserAdmin):
     """ attrs: is_superuser,is_active,is_staff (let op: no is_admin)"""
     search_fields = ('email', 'username')
@@ -40,6 +46,6 @@ class UserAdmin(BaseUserAdmin):
 
 
 admin.site.register(User, UserAdmin)
-admin.site.register(HotelManager)
+admin.site.register(HotelManager,HotelManagerAdmin,)
 
 

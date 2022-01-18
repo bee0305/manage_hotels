@@ -32,7 +32,7 @@ class HotelManager(models.Model):
 
 
     def __str__(self) -> str:
-        return f'{self.user.username} can manage {self.city}'
+        return self.user.username
 
  
 
