@@ -14,7 +14,7 @@ def write_to_csv(data,path):
 
 
 def make_request_cities(url):
-    """help func to fetch data from api and create city objects"""
+    """help func to fetch data from api and get/create city objects"""
     resp = requests.get(url=url, auth=HTTPBasicAuth(settings.CSV_HOST, settings.CSV_PSW))
     # splitting on \n chars; returns iterable for csv.reader method
     lines = resp.text.splitlines()

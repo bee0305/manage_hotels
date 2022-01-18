@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'bootstrap4', 
     'widget_tweaks',
     'django_extensions',   
-    # 'rest_framework',
     # custom  
     'users.apps.UsersConfig',  
     'city.apps.CityConfig',  

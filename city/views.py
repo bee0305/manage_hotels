@@ -17,21 +17,19 @@ from utils.request_help import make_request_cities, make_request_hotels_slow
 
 def load_cities(request, url=settings.CITY_URL):
     """ 
-    make a get request via simple auth to fetch a list of cities and create db records
-    of City objects
+    if user is staff: menu UI(buttons) send request via simple auth to fetch a list of cities 
+    and create db records of City objects
     """
-    make_request_cities(url)
-    print('Cities req done')
+    make_request_cities(url)    
     return render(request, 'cities/api_requests.html',{'msg':'api request cities done'})
 
 
 def load_hotels(request, url=settings.HOTEL_URL):
     """ 
-    make a get request via simple auth to fetch a list of hotels  and create db records
-    of Hotel objects
+    if user is staff: menu UI send request via simple auth to fetch a list of hotels  
+    and create db records of Hotel objects
     """
-    make_request_hotels_slow(url)
-    print('hotel req done')
+    make_request_hotels_slow(url)    
     return render(request, 'cities/api_requests.html',{'msg':'api request hotels  done'})
 
 
@@ -42,7 +40,9 @@ class CityListView(ListView):
     template_name = 'cities/show_cities.html'
 
     def get_context_data(self, **kwargs):
-        """ enjects dj-ajax-selects search form into template; proccessing in another func (get_city_hotels_search)"""
+        """
+         enjects dj-ajax-selects search form into template; proccessing in another func (get_city_hotels_search)
+        """
         context = super().get_context_data(**kwargs)
         search_city_form = SearchForm()
         context['search_city_form'] = search_city_form
@@ -90,54 +90,47 @@ def get_city_hotels_search(request):
 
 
 class ManageCity(LoginRequiredMixin,UserPassesTestMixin, View):
-    def test_func(self):
-        # print(self.request.user.is_hotel_manager)
+    def test_func(self):        
         return self.request.user.is_hotel_manager
 
     def get(self,request,*args,**kwargs):         
         search_word = request.GET.get('search')
         manager = HotelManager.objects.filter(user=request.user).last()        
         hotels = manager.city.hotels.filter(name__icontains=search_word)  
-        ctx = {'hotels':hotels}     
+        ctx = {'hotels':hotels}   
             
         return render(request,'_partials/list_hotels.html',ctx)  
 
 def clear(request):
+    '''help func to clean elem in case of htmx requests '''
     return   HttpResponse('')          
 
 class HXManageCity(LoginRequiredMixin,UserPassesTestMixin, View): 
 
     """ htmx get and post requests with check hotel manager """
 
-    def test_func(self): 
+    def test_func(self):
+        '''check of user adin or hotel manager''' 
         if self.request.user.is_superuser:
-            return True 
-        print('line from 113',self.kwargs.keys()) 
+            return True         
         if self.request.user.is_hotel_manager:
             city_slug = self.kwargs.get('city_slug') 
-            try:
-                print('line 119')
-                requested_city = City.objects.get(slug=city_slug)
-                print('req city',requested_city)
-                manager_perms_city  =  HotelManager.objects.filter(user=self.request.user).last()
-                print('user city is ',manager_perms_city.city) 
-                if requested_city == manager_perms_city.city:
-                    print('line 122, use can crud')
-                    return True
-                else:
-                    print('hfdh')    
+            try:                
+                requested_city = City.objects.get(slug=city_slug)                
+                manager_perms_city  =  HotelManager.objects.filter(user=self.request.user).last()                
+                if requested_city == manager_perms_city.city:                    
+                    return True                   
                 
             except:
                 return False   
-
-       
+      
 
     def get(self,request,*args,**kwargs):  
         """
-        expect kwargs=='action' in url|=> return 
-        # empty hotel form
-        # list of corresponding hotel 
-        # start page for manager
+        expect kwargs=='action' in url|=> based on that can return: 
+        1.empty hotel form
+        2.list of corresponding hotel 
+        3.start page for manager
         # NOT incl hotel detail (see another func)
         """           
         manager = HotelManager.objects.filter(user=request.user).last()
@@ -208,6 +201,7 @@ class HXManageCity(LoginRequiredMixin,UserPassesTestMixin, View):
     
 
 def get_hotel_detail(request,unid): 
+    '''hotel details available for admin and hotel manager'''
     #  "ANT";"ANT11";"Agora"  city_code;unid;name 
     user = request.user
     if  user.is_hotel_manager:
@@ -219,8 +213,8 @@ def get_hotel_detail(request,unid):
         except Exception as e:                      
             return render(request, '_partials/404.html')
 
-def start_hotel_edit(request,unid,city_slug):    
-    #  return hotel form with intial vals     
+def start_hotel_edit(request,unid,city_slug):
+    '''hotel details to edit available for admin and hotel manager'''   
     requested_city = City.objects.get(slug=city_slug)
     if  request.user.is_hotel_manager:
         manager =  HotelManager.objects.filter(user=request.user).last()    
@@ -228,21 +222,16 @@ def start_hotel_edit(request,unid,city_slug):
         if city == requested_city:
             try:
                 hotel = Hotel.objects.get(unid=unid,city=city)
-                print('hotel is',hotel)
                 hotel_form = HotelForm(instance=hotel)                           
                 return render(request, '_partials/hotel_form.html',
-                        {'hotel_form':hotel_form,'hotel':hotel,'flag':'ZOOOOO','city':city})        
+                        {'hotel_form':hotel_form,'hotel':hotel,'flag':'flag','city':city})        
             except Exception as e:
-                print('obj not found') 
-                print(e)            
+                # print(e)
                 return render(request, '_partials/404.html')
 
-def get(self,request,*args,**kwargs): 
-        print('args:',args) 
-        print('kwargs:',kwargs)
-        print('req GET',request.GET.get('search'))
+def get(self,request,*args,**kwargs):         
         manager = HotelManager.objects.filter(user=request.user).last()
         city = manager.city  
-        ctx = {'city':city.name}       
+        ctx = {'city':city.name}      
             
         return render(request,'cities/manage_city.html',ctx)   

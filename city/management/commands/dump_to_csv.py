@@ -11,8 +11,8 @@ class Command(BaseCommand):
     """
         two blocks: to 'catch' data from city api and hotel api with command
         AND write info to csv files:
-        for cities:  $python manage.py  get_cities (or python manage.py  get_cities --catch city)
-        for hotels:  $python manage.py  get_cities --catch hotel
+        for cities:  $python manage.py  dumpt_to_csv (or python manage.py  dump_to_csv --catch city)
+        for hotels:  $python manage.py  dump_to_csv --catch hotel
         First request.head if resp OK => request.get         
     """
     help = 'Make api call to fetch all cities or hotels'
@@ -30,8 +30,7 @@ class Command(BaseCommand):
                 # TODO: log
                 if resp.status_code == 200:
                     print('url', url)
-                    resp = requests.get(url=url, auth=HTTPBasicAuth(settings.CSV_HOST, settings.CSV_PSW))
-                    print(resp.content)
+                    resp = requests.get(url=url, auth=HTTPBasicAuth(settings.CSV_HOST, settings.CSV_PSW))                    
                     write_to_csv(resp.content,'csv_src/city.csv')
                     print('done')
                     self.stdout.write(self.style.SUCCESS(f"Last request at:{time} city api; code {resp.status_code}"))
