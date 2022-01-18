@@ -1,65 +1,74 @@
 data from api endpoint can be fetched via:
-1. via templates UI (if user is staff => buttons for requests)
-2. via custom management command get_api ( city= default, hotel)
-3. via runscript management command ( django-extentions) 
+1. via templates UI (if user is_staff => buttons for requests)
+
+2. via custom management commands (see further):
+save in db:
+    manually:
+        2.1. get_api_mix with args ( city= default, hotel)
+        2.2. runscript ( django-extentions) 
+    cron jobs
+        2.3.  get_city and  get_hotel
+save in csv file 
+    2.4 dump_to_csv
 
 A. git branch main
-1.core func is located in  utils/request_help.py
-2.api calls via UI menu buttons (available only for is_staff)
-3.db data gets created only once and later only updated (get_or_create)
-4. after db update => dj template
 
-5.1 custom management command get_api  with arguments
-two blocks: to fetch data from city api and hotel api with command:
-First request.head if resp OK => request.get
-########################################################################################         
-for cities:  $python manage.py  get_api (or python manage.py  get_cities --fetch city)
-for hotels:  $python manage.py  get_api --fetch hotel
-######################################################################################## 
+1.core functions are located in  utils/request_help.py
+    via HTTPBasicAuth request to api points to fetch data about cities and hotels 
+    corresponding objects in the database get created only once and later will be updated (get_or_create)
+    # option (delete all existing objects and .bulk_create them again in db) see below in branch dj-extention
+2. custom management commands with arguments or without args make first request.head;
+if status_code OK |=> call core functions
 
-5.2 custom management command get_city  without arguments
-First request.head if resp OK => request.get
-########################################################################################         
-for cities:  $python manage.py  get_city
-for hotels:  $python manage.py  get_hotel
-######################################################################################## 
-6. cron job for get_city and get_hotel    
-
-B. git branch dj-extention
-
-# depends on third partie module == django-extensions
-
-1. existing db data gets deleted
-2. csv data gets fetched from api point through the built-in management command (== runscript):
-3. new city,hotels objects created in db via .bulk_create(objects_list) 
+B. git branch dj-extention (package == django-extensions)
+1. core functions located in folder 'scripts' with 2 files (city_csv_gen.py/hotel_csv_gen.py)   
+   via HTTPBasicAuth request to api points to fetch data about cities and hotels 
+   prev existed objects cities/hotels get deleted from the db and new objects created via .bulk_create
+2. management command is from dj-extentions package == runscript
 
 
-#########################################################################################
-for cities  $ python manage.py runscript city_csv_gen
-for hotels  $ python manage.py runscript hotel_csv_gen
-#########################################################################################    
-    
+Extra's:    
+    js
+    - custom ajax
+    - htmx
+    - django-ajax-selected: input 3 chars to get city to search (front,admin)
+    unittests
+    fixtures
 
-Featurs:
-========
-Public (custom ajax without htmx) + django-ajax-selects
----------------------------------------------------------
+Models and perms:
+models: User,HotelManager,City,HotelManager
 
-Menu: button Cities list -> template with all cities
-user can get hotels:
-1. via click on a city in the list   -> list of hotels + city name displayed on the same page
-2. via search form (django-ajax-selects): type 3 chars of city name -> list of hotels + city name displayed on the same page
-
-Only for a hotel manager of a given by admin city 
---------------------------------------------------
-
-Menu: button Dashboard
+superuser can via admin panel create hotel manager|=> via post_save signal correspond user gets attr == is_hotel_magaer
+created hotel manager:
+    can only manage hotels in a given city ( via UI in menu; no access to admin panel)
+    gets UI menu button: Dashboard    
+    manager can manage hotels only in a given city (city can have one or more manager(s))
 
 
+P.s
+Management commands: 
+A. fetch data and save in db
+    #manually
+    python manage.py  get_api (or python manage.py  get_cities --fetch city)
+    python manage.py  get_api --fetch hotel
+
+    #cron
+    python manage.py  get_city
+    python manage.py  get_hotel
+    # cron job at 2:30 a.m. each day
+    30 2  *    *   *    /home/..../city/city/cron/get_hotel.sh >> /home/.../logs/city.log
+
+    #django-extentions
+    python manage.py runscript city_csv_gen
+    python manage.py runscript hotel_csv_gen
+B.
+    fetch data and save in csv files 
+    python manage.py  dump_to_csv (or python manage.py  dump_to_csv --catch city)
+    python manage.py  dump_to_csv --catch hotel   
+
+Failures:
+    no success in setup django-extentions cron jobs
 
 
-1. superuser can via admin panel create hotel manager|=> via post_save signal correspond user gets attr == is_hotel_magaer
-2. hotel manager can only manage hotels in a given city ( via UI in menu; no access to admin panel)
 
-? single hotel manager vs many hotel managers for 1 city
 
