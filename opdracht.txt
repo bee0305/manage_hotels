@@ -5,16 +5,16 @@ https://github.com/bee0305/manage_hotels (2 branches)
 =============
 [X] import data via (basic) auth HTTP request
     * via menu in templates ( UI buttons)
-    * via custom management command
+    * via custom management commands
     * via django_extentions management command
-    (see docs.txt for more info)            
+    (see readme for more info)            
 [X] models City, Hotel (FK(City))
 [X] template with cities and hotels data: on the same page
     Menu: Cities list
     * ajaxed based search form: autocomplete search city (3 chars)(dango-ajax-selects)|=> hotels
     * <a> tag click  ajax based request to view to fetch and render list of hotels
 
-[X] views for requests (func based)
+[X] views for requests 
 
 [X] views CiltyList (incl search form autocomplete)
 [X] views for JSON hotel data
@@ -34,16 +34,16 @@ https://github.com/bee0305/manage_hotels (2 branches)
 [X] each day data via cron
 [X] cron for custom management command 
 [X] management commands with django-django_extentions()
-[?] cron  django-django_extentions()
-[-] fixtures
+[failed] cron  django-django_extentions()
+[X] fixtures
 
 ===========
 3. Extra  ||
 ===========
-[-] admin template: display hotel_manager for a given city  or (search/just name)
+[X] admin template: display hotel_manager for a given city  or (search/just name)
 [X] hotel managers: crud hotels in a corresp city with HTMX
-[-] logs
 [X] re-arrange fbv => cbv where it makes sense
+[-] logs
 [-] make folder views to separ api func from another
 [-] pagination
 
