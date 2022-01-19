@@ -10,7 +10,7 @@
 
 3. django-ajax-select
 
-4. custom mamangement commands
+4. custom management commands
 
 5. management commands based on django-extentions
 
