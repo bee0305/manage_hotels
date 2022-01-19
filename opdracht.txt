@@ -45,7 +45,7 @@ https://github.com/bee0305/manage_hotels (2 branches)
 [X] re-arrange fbv => cbv where it makes sense
 [-] logs
 [-] make folder views to separ api func from another
-[-] pagination
+
 
 
     

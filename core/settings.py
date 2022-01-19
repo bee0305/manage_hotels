@@ -155,3 +155,47 @@ FIXTURE_DIRS = ['fixtures']
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    'version': 1,    
+    'disable_existing_loggers': False,
+    'formatters':{
+        'verbose': {
+            'format': '{levelname} {asctime} {module}  {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },        
+    },
+    'handlers': { 
+        'console':{
+            'level':'INFO',
+            'class':'logging.StreamHandler',
+            'formatter':'simple'
+        },
+        'dj': {
+            'level': 'INFO',
+            # 'level': 'WARNING',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'formatter':'verbose',                     
+            'maxBytes':1024*1024*1,#1MB
+            'backupCount':5,
+            'filename':'logs/api_flow.log',
+        },        
+        
+          
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['dj','console'],
+            # 'handlers': ['mail_admin','dj'],
+            'level': 'INFO',
+            # 'level': 'WARNING',
+            'propagate': False,
+        },        
+        
+            
+    }
+}
