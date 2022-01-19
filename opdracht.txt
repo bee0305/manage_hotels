@@ -43,7 +43,7 @@ https://github.com/bee0305/manage_hotels (2 branches)
 [X] admin template: display hotel_manager for a given city  or (search/just name)
 [X] hotel managers: crud hotels in a corresp city with HTMX
 [X] re-arrange fbv => cbv where it makes sense
-[-] logs
+[X] logs (not for all actions)
 [-] make folder views to separ api func from another
 
 
